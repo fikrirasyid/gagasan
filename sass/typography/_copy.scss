@@ -1,156 +1,141 @@
-@mixin copy{
-	h1{
-		font-weight: 900;
-		@include font-size( 2.4 );
-		color: $color__text-title;
-		line-height: 1.2;
-		margin-top: 1.7em;
-		margin-bottom: .7em;
-
-		@include font-size( 2.8 );
-		@include font-size-tablet( 3.2 );
-		@include font-size-desktop( 4.2 );
-	}
-
-	h2{
-		font-weight: 900;
-		@include font-size( 1.9 );
-		color: $color__text-title;
-		line-height: 1.3;
-		margin-top: 1.7em;
-		margin-bottom: .7em;
-
-		@include font-size( 2.4 );
-		@include font-size-tablet( 2.6 );
-		@include font-size-desktop( 3.6 );
-	}
-
-	h3{
-		font-weight: 900;
-		@include font-size( 1.6 );
-		color: $color__text-title;
-		line-height: 1.3;
-		margin-top: 1.7em;
-		margin-bottom: .7em;
-
-
-		@include font-size( 2.2 );
-		@include font-size-tablet( 2.2 );
-		@include font-size-desktop( 3.2 );
-	}
-
-	h4{
-		font-weight: lighter;
-		color: $color__text-title;
-		line-height: 1.4;
-		margin-top: 1em;
-		margin-bottom: .7em;
-
-		@include font-size( 2 );
-		@include font-size-desktop( 2.4 );
-	}
-
-	p {
-		margin-bottom: 1em;
-	}
-
-	b, strong {
-		font-weight: 900;
-		color: $color__text-title;
-	}
-
-	dfn, cite, em, i {
-		font-style: italic;
-	}
-
-	blockquote {
-		margin: 1.7em;
-		@include font-size( 1.8 );
-		font-weight: lighter;
-		color: $color__text-light;
-		line-height: 1.6;
-
-		@include font-size-desktop( 2.4 );
-	}
-
-	address {
-		margin: 0 0 1em;
-		font-style: italic;
-		line-height: 1.4;
-		color: $color__text-title;
-	}
-
-	pre {
-		background: $color__background-pre;
-		font-family: $font__pre;
-		@include font-size(1.5);
-		line-height: $font__line-height-pre;
-		margin-bottom: 1.6em;
-		max-width: 100%;
-		overflow: auto;
-		padding: 1.6em;
-	}
-
-	code, kbd, tt, var {
-		@include font-size(1.5);
-		font-family: $font__code;
-		color: $color__text-title;
-	}
-
-	abbr, acronym {
-		border-bottom: 1px dotted $color__border-abbr;
-		cursor: help;
-	}
-
-	mark, ins {
-		background: $color__background-ins;
-		text-decoration: none;
-	}
-
-	sup,
-	sub {
-		font-size: 75%;
-		height: 0;
-		line-height: 0;
-		position: relative;
-		vertical-align: baseline;
-	}
-
-	sup {
-		bottom: 1ex;
-	}
-
-	sub {
-		top: .5ex;
-	}
-
-	small {
-		font-size: 75%;
-	}
-
-	big {
-		font-size: 125%;
-	}	
-
-	ul,ol{
-		margin-left: 1.5em;
-		margin-bottom: 1em;
-	}
-
-	ul{
-		li{
-			list-style: disc;
-		}
-	}
-
-	ol{
-		li{
-			list-style: decimal;
-		}
-	}
+p {
+	margin-bottom: 1.5em;
 }
 
-.comment-content,
-.entry-content{
-	@include copy;	
+b,
+strong {
+	font-weight: 700;
+}
+
+dfn,
+cite,
+em,
+i {
+	font-style: italic;
+}
+
+blockquote {
+	font-family: $font__main;
+	@include font-size(2);
+	font-style: italic;
+	line-height: 1.5;
+	margin: 30px 30px;
+	padding: 20px 0 20px;
+	cite:before {
+		@include genericons(inherit);
+		content: "\f50e";
+		margin-right: 3px;
+	}
+}
+	
+	/**
+	* Desktop adjustment
+	*/
+	@media screen and ( min-width: $size__breakpoint-desktop ){
+		blockquote {
+			@include font-size(2.2);
+			margin: 20px 40px 0;
+		}
+	}
+
+blockquote cite,
+blockquote small {
+	color: $color__silver;
+	@include font-size(1.6);
+	font-weight: 700;
+	font-family: $font__secondary;
+	line-height: $font__line-height-body;
+}
+
+blockquote em,
+blockquote i,
+blockquote cite {
+	font-style: normal;
+}
+
+blockquote strong,
+blockquote b {
+	font-weight: 400;
+}
+
+address {
+	font-style: italic;
+	margin: 0 0 1.5em;
+}
+
+code,
+kbd,
+tt,
+var,
+samp,
+pre {
+	font-family: Inconsolata, monospace;
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+
+code {
+	border: 1px solid $color__border;
+	line-height: 1.2;
+	background-color: $color__light_bg;
+	padding: 0.2em 0.4em;
+	border-radius: 7px;
+}
+
+pre {
+	background-color: transparent;
+	background-color: $color__light_bg;
+	border: 1px solid $color__border;
+	line-height: 1.2;
+	margin-bottom: 1.5em;
+	max-width: 100%;
+	overflow: auto;
+	padding: 0.8em;
+	white-space: pre;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	@include border-radius(5px);
+}
+
+pre code {
+	border: 0;
+}
+
+abbr[title] {
+	border-bottom: 1px dotted $color__silver;
+	cursor: help;
+}
+
+mark,
+ins {
+	background-color: $color__background-ins;
+	text-decoration: none;
+}
+
+sup,
+sub {
+	font-size: 75%;
+	height: 0;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	bottom: 1ex;
+}
+
+sub {
+	top: .5ex;
+}
+
+small {
+	font-size: 75%;
+}
+
+big {
+	font-size: 125%;
 }

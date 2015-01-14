@@ -4,15 +4,13 @@
  *
  * Displays all of the <head> section and everything up till <div id="content">
  *
- * @package Gagasan
+ * @package gagasan
  */
-global $paged;
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?php wp_title( '|', true, 'right' ); ?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 
@@ -24,28 +22,26 @@ global $paged;
 	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'gagasan' ); ?></a>
 
 	<header id="masthead" class="site-header" role="banner">
-		<div class="wrap">
+		<div class="inner--container wrap">
 			<div class="site-branding">
-				<?php
-					if( function_exists( 'jetpack_the_site_logo' ) ){
-						jetpack_the_site_logo();
-					}
-
-					if ( is_front_page() && is_home() ) : ?>
-						<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-					<?php else : ?>
-						<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-					<?php endif;					
-				?>
+				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
 			</div><!-- .site-branding -->
 
+			<?php if ( has_nav_menu( 'primary' ) ) : ?>
 			<nav id="site-navigation" class="main-navigation" role="navigation">
-				<button class="menu-toggle dashicons dashicons-menu"><?php _e( 'Primary Menu', 'gagasan' ); ?></button>
-				<?php wp_nav_menu( array( 'theme_location' => 'primary' ) ); ?>
-			</nav><!-- #site-navigation -->		
-		</div>
+				<button class="menu-toggle button--menu" aria-controls="menu" aria-expanded="false"><?php _e( 'Primary Menu', 'gagasan' ); ?></button>
+				<?php 
+					wp_nav_menu( array( 
+						'theme_location'  => 'primary',
+						'container_class' => 'primary-nav clear',
+						'menu_id'         => 'navbar',
+						'menu_class'	  => 'nav-menu'
+					    ) );
+				    ?>
+			</nav><!-- #site-navigation -->
+			<?php endif; //has_nav_menu ?>
+		</div><!-- .inner-container -->
 	</header><!-- #masthead -->
-	
-	<?php gagasan_page_header(); ?>
 
-	<div id="content" class="site-content wrap">
+	<div id="content" class="site-content">
+		<div class="inner--container wrap">

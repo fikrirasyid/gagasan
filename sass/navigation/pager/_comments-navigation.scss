@@ -1,0 +1,21 @@
+.comment-navigation {
+	margin: 0 0 2.5em;
+	.nav-previous,
+	.nav-next {
+		padding-top: 20px;
+		padding-bottom: 20px;
+		 a {
+			z-index: 1;
+			font-weight: lighter;
+			line-height: 1.111;
+			font-family: $font__secondary;
+			border: 1px solid;
+			@include font-size(1.4);
+			padding: 8px 10px;
+			position: relative;
+			display: inline-block;
+			text-transform: uppercase;
+			@include border-radius(5);
+		}
+	}
+}

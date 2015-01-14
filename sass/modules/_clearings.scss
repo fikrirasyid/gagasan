@@ -1,3 +1,5 @@
+.wrap:before,
+.wrap:after,
 .clear:before,
 .clear:after,
 .entry-content:before,
@@ -6,15 +8,13 @@
 .comment-content:after,
 .site-header:before,
 .site-header:after,
-.entry-meta:before,
-.entry-meta:after,
 .site-content:before,
 .site-content:after,
 .site-footer:before,
 .site-footer:after {
 	@include clearfix;
 }
-
+.wrap:after,
 .clear:after,
 .entry-content:after,
 .comment-content:after,

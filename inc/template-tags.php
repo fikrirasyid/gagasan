@@ -4,59 +4,36 @@
  *
  * Eventually, some of the functionality here could be replaced by core features.
  *
- * @package Gagasan
+ * @package gagasan
  */
 
-if( ! function_exists( 'gagasan_paging_nav_newer' ) ) :
+if ( ! function_exists( 'gagasan_paging_nav' ) ) :
 /**
- * Display navigation to newer set of posts when applicable.
+ * Display navigation to next/previous set of posts when applicable.
  */
-function gagasan_paging_nav_newer() {
+function gagasan_paging_nav() {
 	// Don't print empty markup if there's only one page.
 	if ( $GLOBALS['wp_query']->max_num_pages < 2 ) {
 		return;
 	}
 	?>
-	<?php if ( get_previous_posts_link() ) : ?>
-
-	<nav class="navigation paging-navigation newer" role="navigation">
+	<nav class="navigation paging-navigation" role="navigation">
 		<h1 class="screen-reader-text"><?php _e( 'Posts navigation', 'gagasan' ); ?></h1>
 		<div class="nav-links">
-			<div class="nav-next"><?php previous_posts_link( __( 'Newer stories', 'gagasan' ) ); ?></div>
+
+			<?php if ( get_next_posts_link() ) : ?>
+			<div class="nav-previous"><?php next_posts_link( __( 'Discover more&nbsp;<span class="meta-nav">&rarr;</span>', 'gagasan' ) ); ?></div>
+			<?php endif; ?>
+
+			<?php if ( get_previous_posts_link() ) : ?>
+			<div class="nav-next"><?php previous_posts_link( __( '<span class="meta-nav">&larr;&nbsp;</span>Newer ideas', 'gagasan' ) ); ?></div>
+			<?php endif; ?>
+
 		</div><!-- .nav-links -->
 	</nav><!-- .navigation -->
-
-	<?php endif; ?>
-
-	<?php
-}
-endif; 
-
-if ( ! function_exists( 'gagasan_paging_nav_older' ) ) :
-/**
- * Display navigation to older set of posts when applicable.
- */
-function gagasan_paging_nav_older() {
-	// Don't print empty markup if there's only one page.
-	if ( $GLOBALS['wp_query']->max_num_pages < 2 ) {
-		return;
-	}
-	?>
-	<?php if ( get_next_posts_link() ) : ?>
-
-	<nav class="navigation paging-navigation older" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Posts navigation', 'gagasan' ); ?></h1>
-		<div class="nav-links">
-			<div class="nav-previous"><?php next_posts_link( __( 'More stories', 'gagasan' ) ); ?></div>
-		</div><!-- .nav-links -->
-	</nav><!-- .navigation -->
-
-	<?php endif; ?>
-
 	<?php
 }
 endif;
-
 if ( ! function_exists( 'gagasan_post_nav' ) ) :
 /**
  * Display navigation to next/previous post when applicable.
@@ -72,10 +49,10 @@ function gagasan_post_nav() {
 	?>
 	<nav class="navigation post-navigation" role="navigation">
 		<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'gagasan' ); ?></h1>
-		<div class="nav-links">
+		<div class="nav-links clear">
 			<?php
-				previous_post_link( '<div class="nav nav-previous">%link</div>', __( '<span class="meta-label">Previously</span>%title', 'gagasan' ) );
-				next_post_link(     '<div class="nav nav-next">%link</div>',     __( '<span class="meta-label">Read Next</span>%title', 'gagasan' ) );
+				previous_post_link( '<div class="nav-previous">%link</div>', _x('<hgroup><span class="section-title">Previous</span><span class="post-title">%title</span></hgroup>', 'Previous post link', 'gagasan' ) );
+				next_post_link(     '<div class="nav-next">%link</div>',     _x( '<hgroup><span class="section-title">Next</span><span class="post-title">%title</span></hgroup>', 'Next post link',     'gagasan' ) );
 			?>
 		</div><!-- .nav-links -->
 	</nav><!-- .navigation -->
@@ -87,7 +64,7 @@ if ( ! function_exists( 'gagasan_posted_on' ) ) :
 /**
  * Prints HTML with meta information for the current post-date/time and author.
  */
-function gagasan_posted_on( $post_id = false ) {
+function gagasan_posted_on() {
 	$time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
 	if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
 		$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time><time class="updated" datetime="%3$s">%4$s</time>';
@@ -95,135 +72,72 @@ function gagasan_posted_on( $post_id = false ) {
 
 	$time_string = sprintf( $time_string,
 		esc_attr( get_the_date( 'c' ) ),
-		esc_html( get_the_date( 'M j, Y' ) ),
+		esc_html( get_the_date() ),
 		esc_attr( get_the_modified_date( 'c' ) ),
 		esc_html( get_the_modified_date() )
 	);
 
-	if( is_singular() ){
+	$posted_on = sprintf(
+		_x( '%s', 'post date', 'gagasan' ),
+		'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>'
+	);
 
-		$posted_on = __( 'Posted on: ', 'gagasan' ) . '<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>';
+	echo '<span class="posted-on">' . $posted_on . '</span>';
 
-	} else {
-
-		$posted_on = '<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>';
-
-	}
-
-	echo '<span class="posted-on">' . apply_filters( 'gagasan_posted_on', $posted_on, get_the_ID() ) . '</span>';
-
-	if( is_singular() ){
-		edit_post_link( __( 'Edit', 'gagasan' ), '<span class="edit-link">', '</span>' );
-	}
 }
 endif;
 
-if( ! function_exists( 'gagasan_get_entry_subtitle' ) ) :
+if ( ! function_exists( 'gagasan_author' ) ) :
 /**
- * Get HTML "sub-title" content
+ * Prints HTML with meta information for the current post-date/time and author.
  */
-function gagasan_get_entry_subtitle( $post_id = false ){
-	// Default subtitle value
-	$subtitle = '';
+function gagasan_author() {
+	$byline = sprintf(
+		_x( 'Written by %s', 'post author', 'gagasan' ),
+		'<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
+	);
 
+	echo '<span class="byline"> ' . $byline . '</span>';
+
+}
+endif;
+
+if ( ! function_exists( 'gagasan_category_link' ) ) :
+/**
+ * Prints HTML with meta information for the Categories.
+ */
+function gagasan_category_link() {
 	// Hide category and tag text for pages.
-	if ( 'post' == get_post_type( $post_id ) && 'aside' != get_post_format( $post_id ) ) {
-		// Get category list
-		$categories = get_the_category_list( __( ', ', 'gagasan' ), '', $post_id );
-		
-		// Explode into array by comma
-		$categories_list = explode(', ', $categories );
-
-		// Count the number of category. 1 = just print it, 2 = separate with ampersand, n = separate the last category with ampersand (oxford style)
-		$categories_count = count( $categories_list );
-
-		// Check category count, prepare the categories to be printed
-		if ( 2 < $categories_count ) {
-	
-			$cat_index = 0;
-
-			// Loop and printc categories
-			foreach ( $categories_list as $cat ) {
-				$cat_index++;
-
-				if( $cat_index > 1 && $cat_index < $categories_count ){
-					$subtitle .= ', ';
-				}
-
-				if( $cat_index > 1 && $cat_index == $categories_count ){
-					$subtitle .= ', &amp; ';
-				}
-
-				$subtitle .= $cat;
-			}
-
-		} elseif( 2 == $categories_count ) {
-	
-			$cat_index = 0;
-
-			// Loop and printc categories
-			foreach ( $categories_list as $cat ) {
-				$cat_index++;
-
-				if( $cat_index > 1 && $cat_index == $categories_count ){
-					$subtitle .= ' &amp; ';
-				}
-
-				$subtitle .= $cat;
-			}			
-
-		} else {
-			$subtitle = $categories;
+	if ( 'post' == get_post_type() ) {
+		/* translators: used between list items, there is a space after the comma */
+		$categories_list = get_the_category_list( __( ', ', 'gagasan' ) );
+		if ( $categories_list && gagasan_categorized_blog() ) {
+			printf( '<span class="cat-links"><span class="section-title">' . __( 'Filled under', 'gagasan' ) . '</span> %1$s </span>', $categories_list );
 		}
 	}
-
-	// Jetpack Portfolio
-	if( 'jetpack-portfolio' == get_post_type( $post_id ) ){
-
-		$subtitle = get_the_term_list( $post_id, 'jetpack-portfolio-type', '', ', ', '' );
-
-	}
-
-	return $subtitle;
-}
-
-endif;
-
-if ( ! function_exists( 'gagasan_entry_subtitle' ) ) :
-/**
- * Prints HTML "sub-title" if there's any Subtitle plugin. If there's no subtitle plugin, print category elegantly (using ampersand for the last category)
- */
-function gagasan_entry_subtitle( $post_id = false, $class = 'entry-subtitle' ){
-
-	// If no post_id defined, assume that this is used inside the loop
-	if( ! $post_id ){
-		$post_id = get_the_ID();
-	}
-
-	$subtitle = gagasan_get_entry_subtitle( $post_id );
-
-	echo '<h3 class="'. $class  .'">';
-
-	// Remove the "on" at portfolio page
-	if( is_singular( 'jetpack-portfolio' ) || is_post_type_archive( 'jetpack-portfolio' ) ){
-
-		echo apply_filters( 'gagasan_entry_subtitle', $subtitle, $post_id );
-
-	} else {
-
-		echo apply_filters( 'gagasan_entry_subtitle', sprintf( __( 'on %1$s', 'gagasan' ), $subtitle ), $post_id );
-
-	}
-
-	echo '</h3>';	
 }
 endif;
 
-if ( ! function_exists( 'gagasan_entry_footer' ) ) :
+if ( ! function_exists( 'gagasan_comments' ) ) :
 /**
- * Prints HTML with meta information for the categories, tags and comments.
+ * Prints HTML with meta information for the Comments.
  */
-function gagasan_entry_footer() {
+function gagasan_comments() {
+	if ( ! is_single() && ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
+		echo '<span class="comments-link">';
+		comments_popup_link( __( 'Leave a comment', 'gagasan' ), __( '1 Comment', 'gagasan' ), __( '% Comments', 'gagasan' ) );
+		echo '</span>';
+	}
+
+	edit_post_link( __( 'Edit', 'gagasan' ), '<span class="edit-link">', '</span>' );
+}
+endif;
+
+if ( ! function_exists( 'gagasan_tags_links' ) ) :
+/**
+ * Prints HTML with meta information for the Tags.
+ */
+function gagasan_tags_links() {
 	// Hide category and tag text for pages.
 	if ( 'post' == get_post_type() ) {
 		/* translators: used between list items, there is a space after the comma */
@@ -232,67 +146,100 @@ function gagasan_entry_footer() {
 			printf( '<span class="tags-links"><span class="section-title">' . __( 'Tagged', 'gagasan' ) . '</span> %1$s</span>', $tags_list );
 		}
 	}
+}
+endif;
 
-	if ( ! is_single() && ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
-		echo '<span class="comments-link">';
-		comments_popup_link( __( 'Leave a comment', 'gagasan' ), __( '1 Comment', 'gagasan' ), __( '% Comments', 'gagasan' ) );
-		echo '</span>';
+if ( ! function_exists( 'the_archive_title' ) ) :
+/**
+ * Shim for `the_archive_title()`.
+ *
+ * Display the archive title based on the queried object.
+ *
+ * @todo Remove this function when WordPress 4.3 is released.
+ *
+ * @param string $before Optional. Content to prepend to the title. Default empty.
+ * @param string $after  Optional. Content to append to the title. Default empty.
+ */
+function the_archive_title( $before = '', $after = '' ) {
+	if ( is_category() ) {
+		$title = sprintf( __( 'Category: %s', 'gagasan' ), single_cat_title( '', false ) );
+	} elseif ( is_tag() ) {
+		$title = sprintf( __( 'Tag: %s', 'gagasan' ), single_tag_title( '', false ) );
+	} elseif ( is_author() ) {
+		$title = sprintf( __( 'Author: %s', 'gagasan' ), '<span class="vcard">' . get_the_author() . '</span>' );
+	} elseif ( is_year() ) {
+		$title = sprintf( __( 'Year: %s', 'gagasan' ), get_the_date( _x( 'Y', 'yearly archives date format', 'gagasan' ) ) );
+	} elseif ( is_month() ) {
+		$title = sprintf( __( 'Month: %s', 'gagasan' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'gagasan' ) ) );
+	} elseif ( is_day() ) {
+		$title = sprintf( __( 'Day: %s', 'gagasan' ), get_the_date( _x( 'F j, Y', 'daily archives date format', 'gagasan' ) ) );
+	} elseif ( is_tax( 'post_format' ) ) {
+		if ( is_tax( 'post_format', 'post-format-aside' ) ) {
+			$title = _x( 'Asides', 'post format archive title', 'gagasan' );
+		} elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
+			$title = _x( 'Galleries', 'post format archive title', 'gagasan' );
+		} elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
+			$title = _x( 'Images', 'post format archive title', 'gagasan' );
+		} elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
+			$title = _x( 'Videos', 'post format archive title', 'gagasan' );
+		} elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
+			$title = _x( 'Quotes', 'post format archive title', 'gagasan' );
+		} elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
+			$title = _x( 'Links', 'post format archive title', 'gagasan' );
+		} elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
+			$title = _x( 'Statuses', 'post format archive title', 'gagasan' );
+		} elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
+			$title = _x( 'Audio', 'post format archive title', 'gagasan' );
+		} elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
+			$title = _x( 'Chats', 'post format archive title', 'gagasan' );
+		}
+	} elseif ( is_post_type_archive() ) {
+		$title = sprintf( __( 'Archives: %s', 'gagasan' ), post_type_archive_title( '', false ) );
+	} elseif ( is_tax() ) {
+		$tax = get_taxonomy( get_queried_object()->taxonomy );
+		/* translators: 1: Taxonomy singular name, 2: Current taxonomy term */
+		$title = sprintf( __( '%1$s: %2$s', 'gagasan' ), $tax->labels->singular_name, single_term_title( '', false ) );
+	} else {
+		$title = __( 'Archives', 'gagasan' );
+	}
+
+	/**
+	 * Filter the archive title.
+	 *
+	 * @param string $title Archive title to be displayed.
+	 */
+	$title = apply_filters( 'get_the_archive_title', $title );
+
+	if ( ! empty( $title ) ) {
+		echo $before . $title . $after;
 	}
 }
 endif;
 
-if( ! function_exists( 'gagasan_comment' ) ) :
+if ( ! function_exists( 'the_archive_description' ) ) :
 /**
- * Prints HTML of single comment
+ * Shim for `the_archive_description()`.
+ *
+ * Display category, tag, or term description.
+ *
+ * @todo Remove this function when WordPress 4.3 is released.
+ *
+ * @param string $before Optional. Content to prepend to the description. Default empty.
+ * @param string $after  Optional. Content to append to the description. Default empty.
  */
-function gagasan_comment($comment, $args, $depth) {
-	$GLOBALS['comment'] = $comment;
-	extract($args, EXTR_SKIP);
+function the_archive_description( $before = '', $after = '' ) {
+	$description = apply_filters( 'get_the_archive_description', term_description() );
 
-	if ( 'div' == $args['style'] ) {
-		$tag = 'div';
-		$add_below = 'comment';
-	} else {
-		$tag = 'li';
-		$add_below = 'div-comment';
+	if ( ! empty( $description ) ) {
+		/**
+		 * Filter the archive description.
+		 *
+		 * @see term_description()
+		 *
+		 * @param string $description Archive description to be displayed.
+		 */
+		echo $before . $description . $after;
 	}
-?>
-	<<?php echo $tag ?> <?php comment_class( empty( $args['has_children'] ) ? '' : 'parent' ) ?> id="comment-<?php comment_ID() ?>">
-
-	<?php if ( 'div' != $args['style'] ) : ?>
-		<div id="div-comment-<?php comment_ID() ?>" class="comment-body">
-	<?php endif; ?>
-	
-	<div class="comment-identity">
-		<div class="comment-author vcard">
-			<?php if ( $args['avatar_size'] != 0 ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
-			<?php printf( __( '<cite class="fn">%s</cite>' ), get_comment_author_link() ); ?>
-		</div>
-
-		<div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ); ?>">
-			<?php
-				/* translators: 1: date*/
-				printf( __('on %1$s', 'gagasan'), get_comment_date( 'M j, Y' ) ); ?></a><?php edit_comment_link( __( '(Edit)', 'gagasan' ), '  ', '' );
-			?>
-		</div>
-		
-	</div>
-
-	<?php if ( $comment->comment_approved == '0' ) : ?>
-		<em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'gagasan' ); ?></em>
-	<?php endif; ?>
-	
-	<div class="comment-content">
-		<?php comment_text(); ?>	
-	</div>
-
-	<div class="reply">
-	<?php comment_reply_link( array_merge( $args, array( 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
-	</div>
-	<?php if ( 'div' != $args['style'] ) : ?>
-	</div>
-	<?php endif; ?>
-<?php
 }
 endif;
 
@@ -331,147 +278,11 @@ function gagasan_categorized_blog() {
  * Flush out the transients used in gagasan_categorized_blog.
  */
 function gagasan_category_transient_flusher() {
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
 	// Like, beat it. Dig?
 	delete_transient( 'gagasan_categories' );
 }
 add_action( 'edit_category', 'gagasan_category_transient_flusher' );
 add_action( 'save_post',     'gagasan_category_transient_flusher' );
-
-if( ! function_exists( 'gagasan_page_header' ) ) :
-/**
- * Displaying page header appropriately
- */
-function gagasan_page_header(){
-	// Page header isn't used on portfolio page due to the content's nature of portfolio
-	// featured image on portfolio is added to be seen, not an ornament / illustration
-	if( is_singular( 'jetpack-portfolio' ) ){
-		return;		
-	}
-
-	// Page / Singular's page header background is defined by featured image
-	if( is_singular() || is_page() ) :
-		global $post;
-	
-		if( has_post_thumbnail( $post->ID ) ) : 
-			
-			$featured_image_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
-
-			if( isset( $featured_image_url[0] ) ) :
-				?>
-
-				<header class="page-header">
-					<div class="background" style="background: url( <?php echo $featured_image_url[0]; ?> ) no-repeat center center; background-size: cover;"></div>
-					<h1 class="page-title"><?php echo get_the_title( $post->ID ); ?></h1>
-					<?php gagasan_entry_subtitle( $post->ID, 'page-description' ); ?>						
-				</header><!-- .page-header -->	
-
-				<?php 
-
-			else :
-
-				?>
-
-				<header class="page-header no-background-image">
-					<div class="background"></div>
-					<h1 class="page-title"><?php echo get_the_title( $post->ID ); ?></h1>
-					<?php gagasan_entry_subtitle( $post->ID, 'page-description' ); ?>						
-				</header><!-- .page-header -->	
-
-				<?php
-			endif; 
-
-		else :
-				
-			?>
-
-			<header class="page-header no-background-image">
-				<div class="background"></div>
-				<h1 class="page-title"><?php echo get_the_title( $post->ID ); ?></h1>
-				<?php gagasan_entry_subtitle( $post->ID, 'page-description' ); ?>						
-			</header><!-- .page-header -->	
-
-			<?php
-
-		endif; 
-
-	// The rest's page header background is defined by header background
-	else : 
-	?>
-
-		<div class="page-header">
-			<div class="background"></div>
-			
-			<?php if ( is_home() ) : ?>
-
-				<h1 class="page-title"><?php bloginfo( 'name' ); ?></h1>
-				<h2 class="page-description"><?php bloginfo( 'description' ); ?></h2>
-
-			<?php elseif ( is_archive() ) : // Archive Template ?>
-
-				<h1 class="page-title">
-					<?php
-						if ( is_category() ) :
-							single_cat_title();
-
-						elseif ( is_tag() ) :
-							single_tag_title();
-
-						elseif ( is_author() ) :
-							printf( __( 'Author: %s', 'gagasan' ), '<span class="vcard">' . get_the_author() . '</span>' );
-
-						elseif ( is_day() ) :
-							printf( __( 'Day: %s', 'gagasan' ), '<span>' . get_the_date() . '</span>' );
-
-						elseif ( is_month() ) :
-							printf( __( '%s', 'gagasan' ), '<span>' . get_the_date( _x( 'F Y', 'monthly archives date format', 'gagasan' ) ) . '</span>' );
-
-						elseif ( is_year() ) :
-							printf( __( 'Year: %s', 'gagasan' ), '<span>' . get_the_date( _x( 'Y', 'yearly archives date format', 'gagasan' ) ) . '</span>' );
-
-						elseif( is_post_type_archive() ) :
-
-							$post_type 		= get_post_type();
-							$post_type_obj 	= get_post_type_object( $post_type );
-
-							echo $post_type_obj->labels->name;
-
-						elseif ( is_tax( 'post_format', 'post-format-aside' ) ) :
-							_e( 'Asides', 'gagasan' );
-
-						elseif( is_tax() ) :
-
-							$term = get_term_by( 'slug', get_query_var( 'term' ), get_query_var( 'taxonomy' ) ); 
-						
-							echo $term->name;
-
-						else :
-							_e( 'Archives', 'gagasan' );
-
-						endif;
-					?>
-				</h1>
-				<?php
-					// Show an optional term description.
-					$term_description = term_description();
-					if ( ! empty( $term_description ) ) :
-						printf( '<div class="page-description">%s</div>', $term_description );
-					endif;
-				?>
-
-			<?php elseif ( is_search() ) : // Search Template ?>
-
-				<h1 class="page-title"><?php printf( __( 'Search Results for: %s', 'gagasan' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
-
-			<?php elseif ( is_404() ) : // Search Template ?>
-
-				<h1 class="page-title"><?php _e( 'Page Not Found', 'gagasan' ); ?></h1>
-				<h2 class="page-description"><?php _e( 'Nothing was found at this location. Try one of the links below or a search:', 'gagasan' ); ?></h2>
-
-			<?php endif; ?>
-
-		</div><!-- .page-header -->
-
-	<?php 
-		endif; 
-}
-endif;

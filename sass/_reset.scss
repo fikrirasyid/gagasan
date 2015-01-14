@@ -21,12 +21,19 @@ html {
 	overflow-y: scroll; /* Keeps page centered in all browsers regardless of content height */
 	-webkit-text-size-adjust: 100%; /* Prevents iOS text size adjust after orientation change, without disabling user zoom */
 	-ms-text-size-adjust:     100%; /* www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/ */
-	box-sizing: border-box; /* Apply a natural box layout model to the document; see http://www.paulirish.com/2012/box-sizing-border-box-ftw/ */
+	@include box-sizing(border-box); /* Apply a natural box layout model to the document; see http://www.paulirish.com/2012/box-sizing-border-box-ftw/ */
 }
 *,
 *:before,
 *:after { /* Inherit box-sizing to make it easier to change the property for components that leverage other behavior; see http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
-	box-sizing: inherit;
+	@include box-sizing(inherit);
+	text-rendering:optimizeLegibility;
+  	-webkit-font-smoothing: antialiased; 
+  	-moz-osx-font-smoothing: grayscale; 
+  	
+    font-feature-settings: "liga", "kern";
+  	-webkit-font-feature-settings: "liga", "kern";
+ 	-moz-font-feature-settings: "liga", "kern";
 }
 body {
 	background: $color__background-body; /* Fallback for when there is no custom background color defined. */
@@ -60,6 +67,11 @@ q:before, q:after {
 }
 blockquote, q {
 	quotes: "" "";
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	quotes: none;
 }
 a:focus {
 	outline: thin dotted;

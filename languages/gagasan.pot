@@ -1,235 +1,295 @@
+# Copyright (C) 2014 Automattic
+# This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Gagasan\n"
-"POT-Creation-Date: 2014-12-27 11:02+0700\n"
-"PO-Revision-Date: 2014-12-27 11:02+0700\n"
-"Last-Translator: Fikri Rasyid <fikrirasyid@gmail.com>\n"
-"Language-Team: Fikri Rasyid <fikrirasyid@gmail.com>\n"
-"Language: en\n"
+"Project-Id-Version: _s 1.0-wpcom\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/theme/_s\n"
+"POT-Creation-Date: 2014-12-03 09:43:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.1\n"
-"X-Poedit-Basepath: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-KeywordsList: __;_e;esc_attr_e;_x\n"
-"X-Poedit-SearchPath-0: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/404.php:23
+#: 404.php:15
+msgid "Oops! That page can&rsquo;t be found."
+msgstr ""
+
+#: 404.php:19
+msgid "It looks like nothing was found at this location. Maybe try one of the links below or a search?"
+msgstr ""
+
+#: 404.php:27
 msgid "Most Used Categories"
 msgstr ""
 
 #. translators: %1$s: smiley
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/404.php:40
-#, php-format
+
+#: 404.php:44
 msgid "Try looking in the monthly archives. %1$s"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/comments.php:35
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/comments.php:53
+#: comments.php:28
+msgctxt "comments title"
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:35 comments.php:52
 msgid "Comment navigation"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/comments.php:36
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/comments.php:54
+#: comments.php:36 comments.php:53
 msgid "&larr; Older Comments"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/comments.php:37
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/comments.php:55
+#: comments.php:37 comments.php:54
 msgid "Newer Comments &rarr;"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/comments.php:65
+#: comments.php:64
 msgid "Comments are closed."
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/comments.php:72
-msgid "Share Your Thought"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/content-none.php:13
+#: content-none.php:13
 msgid "Nothing Found"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/content-none.php:19
-#, php-format
+#: content-none.php:19
 msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/content-none.php:23
-msgid ""
-"Sorry, but nothing matched your search terms. Please try again with some different "
-"keywords."
+#: content-none.php:23
+msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/content-none.php:28
-msgid ""
-"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
+#: content-none.php:28
+msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/content-page.php:14
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/content-single.php:12
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/content.php:41
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/single-jetpack-portfolio.php:21
+#: content-page.php:18 content-single.php:20 content.php:29
 msgid "Pages:"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/content.php:34
-#, php-format
-msgid "Continue reading %s <span class=\"meta-nav\">&rarr;</span>"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/footer.php:15
-#, php-format
-msgid "Powered by %s &amp; %s"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/functions.php:45
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/header.php:33
-msgid "Primary Menu"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/functions.php:84
-msgid "Sidebar"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/header.php:24
-msgid "Skip to content"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/customizer.php:316
-msgid "Error generating color scheme. Please try again."
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/extras.php:70
-#, php-format
-msgid "Page %s"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:23
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:48
-msgid "Posts navigation"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:25
-msgid "Newer stories"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:50
-msgid "More stories"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:74
-msgid "Post navigation"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:77
-msgid "<span class=\"meta-label\">Previously</span>%title"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:78
-msgid "<span class=\"meta-label\">Read Next</span>%title"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:105
-msgid "Posted on: "
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:116
+#: content-page.php:25 inc/template-tags.php:122
 msgid "Edit"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:135
-msgid ", "
+#. translators: %s: Name of current post
+
+#: content.php:22
+msgid "Continue reading %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#. translators: 1: date
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:186
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:251
-#, php-format
-msgid "on %1$s"
+#: footer.php:15
+msgid "http://wordpress.org/"
+msgstr ""
+
+#: footer.php:15
+msgid "Proudly powered by %s"
+msgstr ""
+
+#: footer.php:17
+msgid "Theme: %1$s by %2$s."
+msgstr ""
+
+#: functions.php:53 header.php:31
+msgid "Primary Menu"
+msgstr ""
+
+#: functions.php:88
+msgid "Sidebar"
+msgstr ""
+
+#: header.php:22
+msgid "Skip to content"
+msgstr ""
+
+#: inc/extras.php:64
+msgid "Page %s"
+msgstr ""
+
+#: inc/template-tags.php:21
+msgid "Posts navigation"
+msgstr ""
+
+#: inc/template-tags.php:25
+msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
+msgstr ""
+
+#: inc/template-tags.php:29
+msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: inc/template-tags.php:52
+msgid "Post navigation"
+msgstr ""
+
+#: inc/template-tags.php:55
+msgctxt "Previous post link"
+msgid "<span class=\"meta-nav\">&larr;</span>&nbsp;%title"
+msgstr ""
+
+#: inc/template-tags.php:56
+msgctxt "Next post link"
+msgid "%title&nbsp;<span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: inc/template-tags.php:82
+msgctxt "post date"
+msgid "Posted on %s"
+msgstr ""
+
+#: inc/template-tags.php:87
+msgctxt "post author"
+msgid "by %s"
 msgstr ""
 
 #. translators: used between list items, there is a space after the comma
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:206
-msgid " "
+
+#: inc/template-tags.php:104 inc/template-tags.php:110
+msgid ", "
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:208
-msgid "Tagged"
+#: inc/template-tags.php:106
+msgid "Posted in %1$s"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:214
+#: inc/template-tags.php:112
+msgid "Tagged %1$s"
+msgstr ""
+
+#: inc/template-tags.php:118
 msgid "Leave a comment"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:214
+#: inc/template-tags.php:118
 msgid "1 Comment"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:214
+#: inc/template-tags.php:118
 msgid "% Comments"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:245
-#, php-format
-msgid "<cite class=\"fn\">%s</cite>"
+#: inc/template-tags.php:139
+msgid "Category: %s"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:251
-msgid "(Edit)"
+#: inc/template-tags.php:141
+msgid "Tag: %s"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:258
-msgid "Your comment is awaiting moderation."
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:396
-#, php-format
+#: inc/template-tags.php:143
 msgid "Author: %s"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:399
-#, php-format
-msgid "Day: %s"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:402
-#, php-format
-msgid "%s"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:402
-msgid "F Y"
-msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:405
-#, php-format
+#: inc/template-tags.php:145
 msgid "Year: %s"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:405
+#: inc/template-tags.php:145
+msgctxt "yearly archives date format"
 msgid "Y"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:415
+#: inc/template-tags.php:147
+msgid "Month: %s"
+msgstr ""
+
+#: inc/template-tags.php:147
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr ""
+
+#: inc/template-tags.php:149
+msgid "Day: %s"
+msgstr ""
+
+#: inc/template-tags.php:149
+msgctxt "daily archives date format"
+msgid "F j, Y"
+msgstr ""
+
+#: inc/template-tags.php:151
+msgctxt "post format archive title"
 msgid "Asides"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:424
+#: inc/template-tags.php:153
+msgctxt "post format archive title"
+msgid "Galleries"
+msgstr ""
+
+#: inc/template-tags.php:155
+msgctxt "post format archive title"
+msgid "Images"
+msgstr ""
+
+#: inc/template-tags.php:157
+msgctxt "post format archive title"
+msgid "Videos"
+msgstr ""
+
+#: inc/template-tags.php:159
+msgctxt "post format archive title"
+msgid "Quotes"
+msgstr ""
+
+#: inc/template-tags.php:161
+msgctxt "post format archive title"
+msgid "Links"
+msgstr ""
+
+#: inc/template-tags.php:163
+msgctxt "post format archive title"
+msgid "Statuses"
+msgstr ""
+
+#: inc/template-tags.php:165
+msgctxt "post format archive title"
+msgid "Audio"
+msgstr ""
+
+#: inc/template-tags.php:167
+msgctxt "post format archive title"
+msgid "Chats"
+msgstr ""
+
+#: inc/template-tags.php:169
+msgid "Archives: %s"
+msgstr ""
+
+#. translators: 1: Taxonomy singular name, 2: Current taxonomy term
+
+#: inc/template-tags.php:173
+msgid "%1$s: %2$s"
+msgstr ""
+
+#: inc/template-tags.php:175
 msgid "Archives"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:439
-#, php-format
+#: search.php:16
 msgid "Search Results for: %s"
 msgstr ""
-
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:443
-msgid "Page Not Found"
+#. Theme Name of the plugin/theme
+msgid "_s"
 msgstr ""
 
-#: /Users/fmba/htdocs/fikrirasyid/wp-content/themes/gagasan/inc/template-tags.php:444
-msgid "Nothing was found at this location. Try one of the links below or a search:"
+#. Theme URI of the plugin/theme
+msgid "http://underscores.me/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Hi. I'm a starter theme called <code>_s</code>, or <em>underscores</em>, if you like. I'm a theme meant for hacking so don't use me as a <em>Parent Theme</em>. Instead try turning me into the next, most awesome, WordPress theme out there. That's what I'm here for."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Automattic"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://automattic.com/"
 msgstr ""

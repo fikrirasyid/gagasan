@@ -6,66 +6,153 @@
 @import "primary/posts-and-pages";
 
 /*--------------------------------------------------------------
-11.2 Asides
+11.2 Genericons
 --------------------------------------------------------------*/
-@import "primary/asides";
+@import "primary/genericons";
 
 /*--------------------------------------------------------------
 11.3 Comments
 --------------------------------------------------------------*/
 @import "primary/comments";
 
+
 /*--------------------------------------------------------------
-11.4 Desktop Adjustment
+Global Structure
 --------------------------------------------------------------*/
+#primary,
+#secondary,
+#tertiary,
+.site-branding,
+.main-navigation {
+	@include box-sizing(border-box);
+}
+
+.inner--container {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+#content:before,
+#tertiary {
+	display: none;
+	a {
+		padding: 20px;
+	}
+}
+
+#primary,
+#secondary,
+#colophon {
+	background-color: $color__plain_white;
+}
+
+#secondary {
+	margin-top: 100px;
+	.inner--container {
+		position: relative;
+		text-align: center;
+	}
+}
+
+.circle {
+	@include border-radius(99999);
+}
 
 /**
 * Desktop adjustment
 */
 @media screen and ( min-width: $size__breakpoint-desktop ){
-	.wrap{
-		@include wrap( $size__breakpoint-desktop );		
-	}
-
-	#content{
-		position: relative;
-
-		&:before{
-			display: inline-block;
-			content: '';
-			position: absolute;
+	#content {
+		&:before {
 			top: 0;
+			content:"";
+			z-index: -1;
+			width: 50%;
+			height: 100%;
+			display: block;
+			position: fixed;
+			visibility: visible;
+			background-color: $color__light_bg;
+		}
+	}
+	.wrap{
+		@include wrap( $size__breakpoint-desktop );
+	}
+	#tertiary {
+		top: 40px;
+		position: relative;
+		float: left;
+		width: 80px;
+		display: block;
+		visibility: visible;
+		.tertiary--container.fixed {
+			position: fixed;
+			top: 85px;
+		}
+		.tertiary--container.bottom {
 			bottom: 0;
-			left: 670px;
-			width: 1px;
-			background: $color__border;
+		}
+		.tertiary--container.hidden {
+			visibility: hidden;
+			opacity: 0;
+			@include transitions(300, ease-in-out 100ms);
+		}
+		.tertiary--container {
+			width: 80px;
+			position: absolute;
+			display: block;
+			height: 100%;
+			.more-ideas:before {
+				content: "\f409";
+				@include genericons(2.5rem);
+			}
+			.scroll-down {
+				padding: 0;
+				width: 30px;
+				height: 30px;
+				display: block;
+				line-height: 1;
+				border: 3px solid;
+				text-align: center;
+				margin: 110px auto 0;			
+				text-decoration: none;			
+				vertical-align: middle;
+					span {
+						@include font-size(1.7);
+						letter-spacing: -0.03px;
+						-webkit-transform: rotate(270deg);
+						-moz-transform: rotate(270deg);
+						-o-transform: rotate(270deg);
+						font-weight: 700;
+						display: block;
+						line-height: 1;
+						margin-top: -70px;
+						font-family: $font__secondary;
+					}
+				}
+		}
+		
+	}
+	
+	#content {
+		position: relative;
+		.inner--container.wrap {
+			padding-top: 0;
+			padding-bottom: 0;
 		}
 	}
 
 	#primary{
 		float: left;
-		width: 670px;
-	}
-	
-	// One column layout adjustment
-	.single-jetpack-portfolio,
-	.page-template-temp-one-column-page{
-		#content{
-			&:before{
-				display: none;
-			}
-		}
-
-		#primary{
-			float: none;
-			@include wrap( 740px );
-			// margin-left: 145px;
-		}
+		@include wrap( 740px );
+		margin-left: 80px;
+		border-left: 1px solid $color__border;
+		border-right: 1px solid $color__border;
 	}
 
 	#secondary{
-		float: left;
-		width: 250px;
-		margin-left: 40px;		
+		float: right;
+		margin-top: 0;
+		@include wrap( 440px );
 	}
 }

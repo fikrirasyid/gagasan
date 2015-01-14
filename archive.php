@@ -4,17 +4,24 @@
  *
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
  *
- * @package Gagasan
+ * @package gagasan
  */
 
 get_header(); ?>
 
-	<section id="primary" class="content-area">
+<?php get_sidebar('tertiary'); ?>
+
+	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
 
 		<?php if ( have_posts() ) : ?>
 
-			<?php gagasan_paging_nav_newer(); ?>
+			<header class="page-header">
+				<?php
+					the_archive_title( '<h1 class="page-title">', '</h1>' );
+					the_archive_description( '<div class="taxonomy-description">', '</div>' );
+				?>
+			</header><!-- .page-header -->
 
 			<?php /* Start the Loop */ ?>
 			<?php while ( have_posts() ) : the_post(); ?>
@@ -29,7 +36,7 @@ get_header(); ?>
 
 			<?php endwhile; ?>
 
-			<?php gagasan_paging_nav_older(); ?>
+			<?php gagasan_paging_nav(); ?>
 
 		<?php else : ?>
 
@@ -38,7 +45,7 @@ get_header(); ?>
 		<?php endif; ?>
 
 		</main><!-- #main -->
-	</section><!-- #primary -->
+	</div><!-- #primary -->
 
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>

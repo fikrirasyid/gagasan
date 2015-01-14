@@ -1,10 +1,16 @@
 <?php
 /**
- * @package Gagasan
+ * @package gagasan
  */
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+	<header class="entry-header">
+		<?php 
+		the_title( '<h1 class="entry-title">', '</h1>'); 
+		?>
+	</header><!-- .entry-header -->
+
 	<div class="entry-content">
 		<?php the_content(); ?>
 		<?php
@@ -17,9 +23,13 @@
 
 	<footer class="entry-footer">
 		<div class="entry-meta">
-			<?php gagasan_posted_on(); ?>
+			<?php 
+				gagasan_posted_on();
+				gagasan_author();
+				gagasan_category_link();
+				edit_post_link( __( 'Edit', 'gagasan' ), '<span class="edit-link">', '</span>' );
+			?>
 		</div><!-- .entry-meta -->
-		
-		<?php gagasan_entry_footer(); ?>
+		<?php gagasan_tags_links();?>
 	</footer><!-- .entry-footer -->
 </article><!-- #post-## -->

@@ -1,32 +1,14 @@
 /*--------------------------------------------------------------
+14.1 Infinite Scroll
 --------------------------------------------------------------*/
-@import "variables-site/variables-site";
-@import "mixins/mixins-master";
+@import "jetpack/infinite-scroll";
 
 /*--------------------------------------------------------------
-1.0 Reset
+14.2 Subtitles
 --------------------------------------------------------------*/
-@import "reset";
+@import "jetpack/subtitles";
 
 /*--------------------------------------------------------------
-2.0 Typography
+14.3 Jetpack Site Logo
 --------------------------------------------------------------*/
-@import "typography/typography";
-
-body#tinymce{
-	padding: 30px 30px 0 !important;
-	max-width: 660px;
-	@include copy;
-	font-size: 18px;
-	color: darken( $color__text-main, 15% );
-
-	blockquote{
-		p{		
-			@include font-size( 2.1 );
-		}
-	}
-
-	a{
-		color: $color__link;
-	}
-}
+@import "jetpack/jetpack-logo";

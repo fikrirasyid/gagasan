@@ -4,16 +4,18 @@
  *
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
  *
- * @package Gagasan
+ * @package gagasan
  */
 ?>
 
-<section class="hentry no-results not-found">
-	<header class="entry-header">
-		<h1 class="entry-title"><?php _e( 'Nothing Found', 'gagasan' ); ?></h1>
-	</header><!-- .entry-header -->
 
-	<div class="entry-content">
+
+<section class="no-results not-found">
+	<header class="page-header">
+		<h1 class="page-title"><?php _e( 'Nothing Found', 'gagasan' ); ?></h1>
+	</header><!-- .page-header -->
+
+	<div class="page-content">
 		<?php if ( is_home() && current_user_can( 'publish_posts' ) ) : ?>
 
 			<p><?php printf( __( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', 'gagasan' ), esc_url( admin_url( 'post-new.php' ) ) ); ?></p>
@@ -29,5 +31,5 @@
 			<?php get_search_form(); ?>
 
 		<?php endif; ?>
-	</div><!-- .entry-content -->
+	</div><!-- .page-content -->
 </section><!-- .no-results -->

@@ -1,0 +1,29 @@
+
+.paging-navigation{
+	text-align: right;
+	font-family: $font__secondary;
+	a{
+		display: block;
+		padding: 10px 40px;
+		@include font-size( 2 );
+		font-weight: 700;
+			&:hover{
+				text-decoration: none;
+			}
+			span {
+				display: none;
+			}
+	}
+	.nav-next,
+	.nav-previous {
+		a { 
+			border-top: 1px solid $color__border;
+		}
+	}
+}
+
+.hovered {
+	.meta-nav {
+	display: inline-block;
+	}
+}

@@ -1,19 +1,43 @@
-#colophon{
-	padding: 10px 15px;
-	color: $color__text-light;
-	text-align: center;
-	@include font-size( 1.2 );
+#colophon {
+	border-top: 1px solid $color__border;
+}
 
-	a{
-		color: $color__text-light;		
+.site-info {
+	padding-left: 20px;
+	padding-right: 20px;
+	p {
+		color: $color__silver;
+		text-align: center;
+		margin-bottom: 0;
+		@include font-size (1.4);
+		a {
+			color: $color__silver;
+			&:hover {
+				color: $color__picton_blue;
+			}
+		}
 	}
 }
 
-/**
-* Desktop Adjustment
-*/
-@media screen and ( min-width: $size__breakpoint-desktop ){
-	#colophon{
-		border-top: 1px solid $color__border;		
+@media screen and ( max-width: $size__breakpoint-desktop ){
+	.scroll-to-top {
+		width: 30px;
+		height: 30px;
+		display: block;
+		line-height: 1;
+		color: $color__border;
+		border: 2px solid $color__border;
+		text-align: center;
+		margin: 10px auto 0;			
+		text-decoration: none;			
+		vertical-align: middle;
+		&:hover {
+			border-color: $color__picton_blue;
+		}
+		&:before {
+			content: "\f432";	
+			@include genericons(2.2rem);
+			line-height: 1.1111;
+		}
 	}
 }

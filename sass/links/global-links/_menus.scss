@@ -1,15 +1,24 @@
 .main-navigation {
-	clear: both;
-	display: block;
 	float: left;
 	width: 100%;
-	background: $color__menu-background;
-	border-top: 1px solid $color__border;
-
-	&.toggled{
-		border-bottom: 1px solid $color__border;
+	font-family: $font__secondary;
+	
+	&.toggled {
+		border-top: 1px solid $color__border;
+		
+		.primary-nav {
+			background-color: $color__light_bg;
+			
+			a { 
+				color: $color__silver;
+				
+				&:hover {
+					color: $color__plain_white;
+					background-color: $color__silver;
+				}
+			}
+		}
 	}
-
 	.nav-menu{
 		display: none;
 	}
@@ -21,7 +30,7 @@
 		ul {	
 
 			li {
-				padding-left: 30px;
+				padding-left: 20px;
 
 				&:last-child{
 					a{						
@@ -30,15 +39,14 @@
 				}
 
 				a{
-					border-top: 1px dashed $color__border;
-					@include font-size( 1.3 );
-					padding: 4px 15px;
+					color: $color__lighter;
+				//	border-top: 1px dashed $color__border;
+					padding: 4px 20px;
 					opacity: .8;
+					font-weight: 400;
 				}
 
 				ul{
-					border-top: 1px dashed $color__border;
-
 					li{
 						&:first-child{
 							a{
@@ -48,7 +56,7 @@
 
 						&:last-child{
 							a{
-								border-bottom: 0;
+								border-bottom:0;
 							}
 						}
 					}
@@ -81,21 +89,58 @@
 	a {
 		display: block;
 		text-decoration: none;
-		padding: 7px 15px;
-		// text-align: center;
-		color: $color__text-title;
-		@include font-size( 1.6 );
+		padding: 15px 20px 15px;
+		color: $color__text-main;
+		@include font-size(1.255555);
+		font-weight: 600;
+		text-transform: uppercase;
+	// text-align: center;
+			&:hover {
+				color: $color__silver;
+			}
 	}
 
 	.current_page_item > a,
 	.current-menu-item > a,
 	.current_page_ancestor > a {
+		color: $color__picton_blue;
 	}
 }
 
 /* Small menu */
 .menu-toggle {
-	// display: none;
+	&:before {
+		@include genericons(3.2);
+		content: "\f419";
+		line-height: 1.5;
+	}
+}
+
+.button--menu {
+	width: 32px;
+	height: 32px;
+	border: medium none;
+	color: $color__text-main;
+	@include font-size(2.8);
+	padding: 0;
+	border-radius: 0;
+	box-shadow: none;
+	position: absolute;
+	top: 11px;
+	right: 20px;
+	overflow: hidden;
+	line-height: 1.2222;
+	background-color: $color__plain_white;
+	&:hover{
+		color: $color__picton_blue;
+		background-color: $color__plain_white;
+	}
+}
+
+.admin-bar {
+	.button--menu {
+		top: 57px;
+	}
 }
 
 .menu-toggle,
@@ -104,44 +149,17 @@
 }
 
 /**
-* Older / Newer navigation
-*/
-.paging-navigation{
-	text-align: center;
-	padding: 40px 10px;
-
-	a{
-		@include font-size( 1.4 );
-		border: 1px solid $color__link;
-		padding: 7px 40px;
-		@include border-radius( 4px );
-
-		&:hover{
-			text-decoration: none;
-			border-color: $color__link-hover;
-		}
-	}
-}
-
-/**
 * Desktop Adjustment
 */
 @media screen and ( min-width: $size__breakpoint-desktop ){
-	#site-navigation{
-		&.main-navigation{
-			border-top: none;
-
-			&.toggled{
-				border-top: 1px solid $color__border;
-			}
-		}
+	#site-navigation {
+		max-width: 655px;
 	}
-
 	.not-touch-device{
 		#site-navigation{
-			float: right;
+			float: left;
 			width: auto;
-			margin-top: 6px;
+			margin-left: 7px;
 			background: transparent;
 
 			.menu-toggle{
@@ -168,31 +186,34 @@
 								padding-right: 20px;
 
 								&:after{
-									content: "\f347";
-									@include dashicons( 16px );
+									content: "\f431";
+									@include genericons( 16px );
 									position: absolute;
-									top: 9px;
-									right: 0;
+									top: 11px;
+									margin-left: 5px;
 								}
 							}
 						}
 
 						a{
-							padding-bottom: 11px;
+							//padding-bottom: 14px;
 
 							&:hover{
-								text-decoration: underline;
+								text-decoration: none;
 							}
 						}
 
 						li{
 							&.menu-item-has-children > a{
-								// padding-right: 15px;
+								padding-right: 15px;
 
 								&:after{
-									content: "\f345";
-									top: 5px;
+									content: "\f431";
+									top: 0px;
 									right: 5px;
+									-webkit-transform: rotate(270deg);
+									-moz-transform: rotate(270deg);
+									-o-transform: rotate(270deg);
 								}
 							}
 
@@ -210,7 +231,7 @@
 					ul{
 						display: none;
 						position: absolute;
-						top: 46px;
+						top: 100%;
 						left: -1px;
 						background: white;
 						z-index: 30; // should be higher than .page-header .background & .page-header .page-title, .page-header .page-description
@@ -237,7 +258,6 @@
 							}
 
 							a{
-								@include font-size( 1.6 );
 								display: block;
 								opacity: 1;
 							}

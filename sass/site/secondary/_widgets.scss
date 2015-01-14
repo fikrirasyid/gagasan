@@ -1,14 +1,107 @@
-#secondary{
-	border-top: 1px solid $color__border;
-	background: $color__secondary-bg;
+.user-avatar {
+	position: absolute;
+    top: -50px;
+    left: 0px;
+    right: 0px;
+    width: 100px;
+	height: 100px;
+	margin: 0 auto;
+	background-color: $color__background-body;
+    	img,
+    	figure {
+    		width: 100px;
+			height: 100px;
+			margin: 0 0 30px;
+			border: 1px solid $color__border;			
+    	}
+    	.default-logo {
+			background: url('images/gagasan-logo.png') no-repeat scroll center;
+			background-size: 50px auto;
+
+    	}
 }
 
-.widget {
-	padding: 15px;
+.profile-name {
+	padding: 80px 40px 50px;
 	border-bottom: 1px solid $color__border;
 
-	@include font-size( 1.4 );
+	.site-title {
+		@include font-size( 2 );
+		font-weight: 700;
+		line-height: 1;
+		margin-bottom: 0;
+		padding: 0;
+		float: none;
+		margin-bottom: 10px;
+	}
+	
+	.site-description {
+		color: $color__lighter;
+	}
+}
 
+/* Social Links */
+
+.social-container {
+	margin: 20px auto;
+	padding-bottom: 20px;
+}
+
+.social-links {
+	list-style: none;	
+    display: inline-block;
+    margin: 0;
+		
+		li {
+		    margin: 3px;
+		    display: inline-block;
+		    text-align: center;
+		    padding: 0;
+		    
+		    a {
+				width: 32px;
+			    height: 32px;
+			    color: $color__silver;
+			    border: 1px solid $color__silver;
+			    border-radius: 50%;
+			    position: relative;
+			    text-align: center;
+			    display: inline-block;
+			    text-decoration: none;
+				    
+				    &:hover {
+				    	color: $color__picton_blue;
+				    	border-color:$color__picton_blue;
+			}
+		}
+	}
+}
+
+.social-iconic {
+	&:before,
+	&:after {
+		@include genericons(2.2rem);
+		line-height: 1.111111;
+	}
+}
+
+/**
+* Widgets
+*/
+.widget {
+	padding: 40px;
+	border-bottom: 1px solid $color__border;
+	text-align: center;
+	@include font-size(1.4);
+	&:last-of-type {
+		border-bottom: 0;
+	}
+	a {
+		color: $color__silver;
+		&:hover {
+			color: $color__darker;
+		}
+	}
 	/* Make sure select elements fit in widgets */
 	select {
 		max-width: 100%;
@@ -22,41 +115,52 @@
 		list-style: none;
 		margin-bottom: 3px;
 	}
+}
 
-	a{
-		color: $color__text-light;
+.page-content {
+	.widget {
+		padding: 40px 0;
 	}
 }
+/* Widget Title */
 
 .widgettitle,
 .widget-title{
 	@include font-size( 1.9 );
 	@include font-size-desktop( 2.2 );
-	color: $color__text-title;
-		
-	font-weight: lighter;
+	font-weight: 700;
 	margin-bottom: 10px;
+	&:before {
+		@include genericons(inherit);
+		content: "\f452";
+		margin-left: -30px;
+		margin-right: 7px;
+	}
 }
 
 /* Search widget */
-.widget_search{
-	.search-form{
-		position: relative;
-		padding-right: 105px;
-	}
 
-	.search-field{
-		display: block;
-		width: 100%;
-		@include box-sizing( border-box );
+.widget_search {
+	position: relative;
+		.search-form {
+			position: relative;
+				label:after {
+				content: "\f101";
+				position: absolute;
+				line-height: 1.1111;
+				top: 0px;
+				right: 0;
+				@include genericons(3.2rem);
+			}
+			.search-field {
+				width: 100%;
+				@include box-sizing( border-box );
+			}
+			.search-submit {
+			display: none;
+		}
 	}
-
-	.search-submit {
-		margin-left: 5px;
-		position: absolute;
-		top: 0;
-		right: 0;
-	}	
+	
 }
 
 /* RSS Widget */
@@ -69,12 +173,10 @@
 			@include font-size( 1.6 );
 			font-weight: bold;
 			line-height: 1.2;
-			color: $color__text-title;
 		}
 
 		.rss-date{
 			@include font-size( 1.2 );
-			color: $color__text-light;
 		}
 
 		.rssSummary{
@@ -82,16 +184,14 @@
 	}
 }
 
+
 /**
 * Tablet adjustment
 */
 @media screen and ( min-width: $size__breakpoint-tablet ){
-	#secondary{		
+	#secondary{
 		@include font-size( 1.6 );
-	}
-
-	.widget{
-		padding: 20px 33px;		
+		margin-top: 100px;
 	}
 }
 
@@ -100,17 +200,17 @@
 */
 @media screen and ( min-width: $size__breakpoint-desktop ){
 	#secondary{
+		margin-top: 0;
 		border-top: none;
 		background: none !important;
 	}
 
-	.widget{
-		border-bottom: none;
-		padding-right: 0;
-		padding-left: 0;
+	.widget {
+		text-align: left;
 	}
-
+	
 	.widget-title{
 		margin-bottom: 5px;
 	}
+
 }

@@ -7,7 +7,7 @@
  * and that other 'pages' on your WordPress site will use a
  * different template.
  *
- * @package Gagasan
+ * @package gagasan
  */
 
 get_header(); ?>

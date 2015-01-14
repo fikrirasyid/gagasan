@@ -21,18 +21,11 @@
 	clear: both;
 }
 
-// Border radius
-@mixin border-radius($radius) {
-	background-clip: padding-box; /* stops bg color from leaking outside the border: */
-	-webkit-border-radius: $radius;
-	border-radius: $radius;
-}
-
-// Box model
-@mixin box-sizing($box-model) {
-	-webkit-box-sizing: $box-model; // Safari <= 7
-	-moz-box-sizing: $box-model; // Firefox <= 19
-	box-sizing: $box-model;
+// Border Radis
+@mixin border-radius( $size-radius ) {
+	-webkit-border-radius: $size-radius + px; // Safari <= 7
+	-moz-border-radius: $size-radius + px; // Firefox <= 19
+	border-radius: $size-radius + px;
 }
 
 // Layout wrapping
@@ -41,6 +34,25 @@
 	width: $width;
 	margin-right: auto;
 	margin-left: auto;
+}
+
+@mixin buttonized ($padding, $font-size-button) {
+	padding: $padding;
+	font-size: $font-size-button;
+}
+
+// Box model
+@mixin box-sizing( $box-model ) {
+	-webkit-box-sizing: $box-model; // Safari <= 7
+	-moz-box-sizing: $box-model; // Firefox <= 19
+	box-sizing: $box-model;
+}
+
+@mixin transitions ( $seconds, $transitions) {
+	-webkit-transition: $seconds + ms all $transitions;
+  	-moz-transition: $seconds + ms all $transitions;
+  	-o-transition: $seconds + ms all $transitions;
+  	transition: $seconds + ms all $transitions;
 }
 
 // Tablet typography

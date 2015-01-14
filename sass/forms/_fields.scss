@@ -1,48 +1,37 @@
+input,
+textarea {
+	border: 1px solid $color__border;
+	color: $color__silver;
+	/* Removing the inner shadow on iOS inputs */
+	background-image: -webkit-linear-gradient( rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) ); 
+}
+
+input:focus,
+textarea:focus {
+	background-color: $color__plain_white;
+	border-color: 1px solid $color__border;
+	color: $color__text-main;
+	@include transitions(300, ease-in );
+}
+
+select:focus {
+	outline: 1px solid $color__border_focus;
+}
+
 input[type="checkbox"],
 input[type="radio"] {
-	padding: 0; /* Addresses excess padding in IE8/9 */
-}
-
-input[type="search"] {
-	-webkit-appearance: textfield; /* Addresses appearance set to searchfield in S5, Chrome */
-	box-sizing: content-box;
-}
-
-input[type="search"]::-webkit-search-decoration { /* Corrects inner padding displayed oddly in S5, Chrome on OSX */
-	-webkit-appearance: none;
-}
-
-button::-moz-focus-inner,
-input::-moz-focus-inner { /* Corrects inner padding and border displayed oddly in FF3/4 www.sitepen.com/blog/2008/05/14/the-devils-in-the-details-fixing-dojos-toolbar-buttons/ */
-	border: 0;
 	padding: 0;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="url"],
-input[type="password"],
-input[type="search"],
-textarea {
-	color: $color__text-input;
-	border: 1px solid $color__border-input;
-	box-shadow: inset 0 1px 2px #fafafa;
-	padding: 7px 10px;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="url"]:focus,
-input[type="password"]:focus,
-input[type="search"]:focus,
-textarea:focus {
-	color: $color__text-input-focus;
-	outline: 0;
-	border-color: $color__link;
+button[disabled],
+input[disabled],
+select[disabled],
+textarea[disabled] {
+	cursor: default;
+	opacity: .5;
 }
 
 textarea {
-	overflow: auto; /* Removes default vertical scrollbar in IE6/7/8/9 */
-	vertical-align: top; /* Improves readability and alignment in all browsers */
-	width: 100%;
+	overflow: auto;
+	vertical-align: top;
 }

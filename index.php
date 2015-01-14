@@ -8,17 +8,17 @@
  * E.g., it puts together the home page when no home.php file exists.
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
  *
- * @package Gagasan
+ * @package gagasan
  */
 
 get_header(); ?>
+
+<?php get_sidebar('tertiary'); ?>
 
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
 
 		<?php if ( have_posts() ) : ?>
-
-			<?php gagasan_paging_nav_newer(); ?>
 
 			<?php /* Start the Loop */ ?>
 			<?php while ( have_posts() ) : the_post(); ?>
@@ -33,7 +33,7 @@ get_header(); ?>
 
 			<?php endwhile; ?>
 
-			<?php gagasan_paging_nav_older(); ?>
+			<?php gagasan_paging_nav(); ?>
 
 		<?php else : ?>
 

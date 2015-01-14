@@ -1,28 +1,26 @@
 <?php
 /**
- * @package Gagasan
+ * The template part for displaying results in search pages.
+ *
+ * Learn more: http://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package gagasan
  */
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<?php if ( has_post_thumbnail() ) : ?>
-
-		<div class="entry-featured-image as-background">
-			<?php the_post_thumbnail( 'full' ); ?>			
-		</div>
-
-	<?php endif; ?>
-
 	<header class="entry-header">
-		<?php if ( 'post' == get_post_type() ) : ?>
-		<div class="entry-meta">
-			<?php gagasan_posted_on(); ?>
-		</div><!-- .entry-meta -->
-		<?php endif; ?>
-
-		<?php the_title( sprintf( '<h1 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h1>' ); ?>		
-
-		<?php gagasan_entry_subtitle(); ?>
+		<?php the_title( sprintf( '<h1 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h1>' ); ?>
 	</header><!-- .entry-header -->
 
+	<div class="entry-summary">
+		<?php the_excerpt(); ?>
+	</div><!-- .entry-summary -->
+
+	<footer class="entry-footer">
+		<?php if ( 'post' == get_post_type() ) : 
+			gagasan_posted_on();
+			gagasan_category_link();
+		endif; ?>
+	</footer>
 </article><!-- #post-## -->

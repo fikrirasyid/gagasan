@@ -1,0 +1,54 @@
+.post-navigation .nav-links a {
+	text-align: left;
+	display: block;
+}
+
+.post-navigation .nav-next,
+.post-navigation .nav-previous {
+	 hgroup {
+	  	line-height: 1.5;
+	  	padding: 30px 20px;	
+	}
+}
+
+.post-navigation {
+	.nav-next,
+	.nav-previous {
+		a {
+			@include transitions(300, ease);
+			background-color: $color__light_bg;
+			border-top: 1px solid $color__border;
+			&:hover {
+				background-color: $color__darker;
+			}
+		}
+	}
+}
+
+.post-navigation {
+	.post-title {
+		font-weight: 700;
+		@include font-size(2.5);
+		letter-spacing: -0.05em;
+		font-family: $font__secondary;
+	}
+}
+
+.post-navigation {
+	.section-title {
+		@include font-size(1.5);
+		font-weight: 700;
+		display: block;
+		line-height: 1;
+	}
+}
+
+/**
+* Desktop adjustment
+*/
+@media screen and ( min-width: $size__breakpoint-desktop ){
+	.post-navigation .nav-next hgroup,
+	.post-navigation .nav-previous hgroup {
+	  	padding: 30px 40px;	
+	}
+}

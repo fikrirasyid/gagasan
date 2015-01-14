@@ -1,5 +1,5 @@
 hr {
-	background-color: $color__background-hr;
+	background-color: $color__silver;
 	border: 0;
 	height: 1px;
 	margin-bottom: 1.5em;
@@ -8,12 +8,19 @@ hr {
 @import "lists";
 
 img {
-	height: auto; /* Make sure images are scaled correctly. */
-	max-width: 100%; /* Adhere to container width. */
+	-ms-interpolation-mode: bicubic;
+	border: 0;
+	height: auto;
+	max-width: 100%;
+	vertical-align: middle;
 }
 
 figure {
 	margin: 0;
+}
+
+del {
+	opacity: 0.8;
 }
 
 @import "tables";

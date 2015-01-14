@@ -1,453 +1,318 @@
 <?php
 /**
- * Gagasan Theme Customizer
+ * gagasan Theme Customizer
  *
- * @package Gagasan
+ * @package gagasan
  */
 
 /**
- * Safer way to check if plugin is active
- * is_plugin_active() throws error when being used inside customize_register hook
- * 
- * @param string plugin file
- * @return bool
- */
-if( ! function_exists( 'gagasan_is_plugin_active' ) ):
-function gagasan_is_plugin_active( $plugin ){
-	$active_plugins = get_option( 'active_plugins' );
-
-	if( in_array( $plugin, $active_plugins ) ){
-		return true;
-	} else {
-		return false;
-	}
-}
-endif;
-
-/**
- * WordPress' native sanitize_hex_color seems to be hasn't been loaded
- * Provide theme's customizer with its own hex color sanitation
- */
-if( ! function_exists( 'gagasan_sanitize_hex_color' ) ) :
-function gagasan_sanitize_hex_color( $color ){
-	if ( '' === $color )
-		return '';
-
-	// 3 or 6 hex digits, or the empty string.
-	if ( preg_match('|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) )
-		return $color;
-
-	return null;
-}
-endif;
-
-if ( ! function_exists( 'gagasan_sanitize_hex_color_no_hash' ) ) :
-function gagasan_sanitize_hex_color_no_hash( $color ){
-	$color = ltrim( $color, '#' );
-
-	if ( '' === $color )
-		return '';
-
-	return gagasan_sanitize_hex_color( '#' . $color ) ? $color : null;	
-}
-endif;
-
-/**
- * Adding custom field for theme's customizer
+ * Add postMessage support for site title and description for the Theme Customizer.
  *
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
-if( ! function_exists( 'gagasan_customize_register' ) ) :
 function gagasan_customize_register( $wp_customize ) {
-	// Remove  header textcolor control
-	$wp_customize->remove_control( 'header_textcolor' );
+	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
+	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
+	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 
-	// Remove  header textcolor control
-	$wp_customize->remove_control( 'display_header_text' );
+	// Logo Section
+	$wp_customize->add_section( 
+		'gagasan_logo_image', array(
+			'priority'    			=> 2,
+			'title'       			=> __( 'Upload Avatar', 'gagasan' ),
+			'description' 			=> __( 'Add avatar/personal logo to your blog. You can use either Gravatar or upload your custom avatar by choosing options below.', 'gagasan' ),
+		)
+	);
+    
+	// Use Gravatar Setting
+	$wp_customize->add_setting( 
+		'gagasan_use_gravatar', array(
+			'default' 				=> '',
+			'sanitize_callback' 	=> 'gagasan_sanitize_checkbox',
+		)
+	);
+			
+	$wp_customize->add_control( 
+		'gagasan_use_gravatar', array(
+			'label'    				=> __( 'Use gravatar', 'gagasan' ),
+			'section'  				=> 'gagasan_logo_image',
+			'type'    				=> 'checkbox',
+			'description'			=> __('To use Gravatar simply check options above and write your Gravatar email address in the box below.', 'gagasan'),				
+		)
+	);
 
-	// Add accent color control
-	// This option relies on Jetpack's preprocessor. Display if Jetpack is active
-	if( gagasan_is_plugin_active( 'jetpack/jetpack.php' ) ){
-		
-		$wp_customize->add_setting( 'accent_color', array(
-			'default'           => '#F2E6D7',
-			'sanitize_callback' => 'sanitize_hex_color',
-			'transport'			=> 'postMessage'
-		) );
+	// Gravatar Email Setting
+	$wp_customize->add_setting( 
+		'gravatar_email', array(
+			'default'           	=> '',
+			'sanitize_callback' 	=> 'is_email',
+		)
+	);
 
-		$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'accent_color', array(
-			'label'       => esc_html__( 'Accent color', 'gagasan' ),
-			'description' => esc_html__( 'Select one light color of your choice. Gagasan will adjust its color scheme based on this color of choice..', 'gagasan' ),
-			'section'     => 'colors',
-		) ) );
+	$wp_customize->add_control( 
+		'gravatar_email', array(
+			'label'             	=> '',
+			'section'           	=> 'gagasan_logo_image',
+			'type'              	=> 'text',
+		)
+	);
 
-	}
+	$wp_customize->add_setting( 
+		'gagasan_logo_image', array(
+			'default'		 		=>  '',
+			'type'              	=> 'theme_mod',
+			'capability'        	=> 'edit_theme_options',
+			'sanitize_callback' 	=> 'esc_url_raw',
+		)
+	);
+				    
+	$wp_customize->add_control( new WP_Customize_Image_Control( 
+		$wp_customize, 
+			'gagasan_logo_images', array(
+				'label'    		=> __( 'Self Upload', 'gagasan' ),
+				'section'  		=> 'gagasan_logo_image',
+				'settings' 		=> 'gagasan_logo_image',
+				'description' 	=> __( 'Upload your custom avatar/logo by clicking select image button below. Gagasan theme recommends avatar/logo size 200x200 pixels.', 'gagasan' )
+				)
+			)
+	);
+
+	// Excerpt Options
+	$wp_customize->add_section( 'gagasan_post_excerpts', array(
+		'priority'    			=> 3,
+		'title'       			=> __( 'Post Excerpts', 'gagasan' ),
+		'description' 			=> __( 'Auto generate excerpts.', 'gagasan' ),
+		)
+	);
+
+	$wp_customize->add_setting( 'gagasan_excerpt_options', array(
+		'default' 				=> '',
+		'sanitize_callback' 	=> 'gagasan_sanitize_checkbox',
+		)
+	);
+			
+	$wp_customize->add_control( 'gagasan_excerpt_options', array(
+		'label'    				=> __( 'Use excerpts', 'gagasan' ),
+		'section'  				=> 'gagasan_post_excerpts',
+		'type'    				=> 'checkbox',
+		'description'			=> __('Enabling this option will generate auto excerpt to your blog.', 'gagasan'),				
+		)
+	);
+						
+	// Social Links
+	$wp_customize->add_section( 'gagasan_social_links', array(
+		'priority'    			=> 4,
+		'title'       			=> __( 'Social Links', 'gagasan' ),
+		'description' 			=> __( 'Add social links to your blog.', 'gagasan' ),
+		)
+	);
+	
+	$wp_customize->add_setting( 'gagasan_dribbble_link', array(
+		'default'           	=> '',
+		'sanitize_callback' 	=> 'esc_url_raw',
+		)
+	);
+
+	$wp_customize->add_control( 'gagasan_dribbble_link', array(
+		'label'             	=> __( 'Dribbble Link', 'gagasan' ),
+		'section'           	=> 'gagasan_social_links',
+		'type'              	=> 'text',
+		'priority'          	=> 1,
+		)
+	);
+
+	$wp_customize->add_setting( 'gagasan_facebook_link', array(
+		'default'           	=> '',
+		'sanitize_callback' 	=> 'esc_url_raw',
+		)
+	);
+
+	$wp_customize->add_control( 'gagasan_facebook_link', array(
+		'label'             	=> __( 'Facebook Link', 'gagasan' ),
+		'section'           	=> 'gagasan_social_links',
+		'type'              	=> 'text',
+		'priority'          	=> 2,
+		)
+	);
+
+	$wp_customize->add_setting( 'gagasan_flickr_link', array(
+		'default'           	=> '',
+		'sanitize_callback' 	=> 'esc_url_raw',
+		)
+	);
+
+	$wp_customize->add_control( 'gagasan_flickr_link', array(
+		'label'             	=> __( 'Flickr Link', 'gagasan' ),
+		'section'           	=> 'gagasan_social_links',
+		'type'              	=> 'text',
+		'priority'          	=> 3,
+		)
+	);
+
+	$wp_customize->add_setting( 'gagasan_github_link', array(
+		'default'           	=> '',
+		'sanitize_callback' 	=> 'esc_url_raw',
+		)
+	);
+
+	$wp_customize->add_control( 'gagasan_github_link', array(
+		'label'             	=> __( 'Github Link', 'gagasan' ),
+		'section'           	=> 'gagasan_social_links',
+		'type'              	=> 'text',
+		'priority'          	=> 4,
+		)
+	);
+
+	$wp_customize->add_setting( 'gagasan_linkedin_link', array(
+		'default'           	=> '',
+		'sanitize_callback' 	=> 'esc_url_raw',
+		)
+	);
+
+	$wp_customize->add_control( 'gagasan_linkedin_link', array(
+		'label'             	=> __( 'LinkedIn Link', 'gagasan' ),
+		'section'           	=> 'gagasan_social_links',
+		'type'              	=> 'text',
+		'priority'          	=> 5,
+		)
+	);	
+
+	$wp_customize->add_setting( 'gagasan_pinterest_link', array(
+		'default'           	=> '',
+		'sanitize_callback' 	=> 'esc_url_raw',
+		)
+	);
+
+	$wp_customize->add_control( 'gagasan_pinterest_link', array(
+		'label'             	=> __( 'Pinterest Link', 'gagasan' ),
+		'section'           	=> 'gagasan_social_links',
+		'type'              	=> 'text',
+		'priority'          	=> 6,
+		)
+	);	
+
+	$wp_customize->add_setting( 'gagasan_rss_link', array(
+		'default'           	=> '',
+		'sanitize_callback' 	=> 'esc_url_raw',
+		)
+	);
+
+	$wp_customize->add_control( 'gagasan_rss_link', array(
+		'label'             	=> __( 'RSS Link', 'gagasan' ),
+		'section'           	=> 'gagasan_social_links',
+		'type'              	=> 'text',
+		'priority'          	=> 7,
+		)
+	);	
+
+	$wp_customize->add_setting( 'gagasan_tumblr_link', array(
+		'default'           	=> '',
+		'sanitize_callback' 	=> 'esc_url_raw',
+		)
+	);
+
+	$wp_customize->add_control( 'gagasan_tumblr_link', array(
+		'label'             	=> __( 'Tumblr Link', 'gagasan' ),
+		'section'           	=> 'gagasan_social_links',
+		'type'              	=> 'text',
+		'priority'          	=> 8,
+		)
+	);	
+
+	$wp_customize->add_setting( 'gagasan_twitter_link', array(
+		'default'           	=> '',
+		'sanitize_callback' 	=> 'esc_url_raw',
+		)
+	);
+
+	$wp_customize->add_control( 'gagasan_twitter_link', array(
+		'label'             	=> __( 'Twitter Link', 'gagasan' ),
+		'section'           	=> 'gagasan_social_links',
+		'type'              	=> 'text',
+		'priority'          	=> 9,
+		)
+	);
+
+	$wp_customize->add_setting( 'gagasan_vimeo_link', array(
+		'default'           	=> '',
+		'sanitize_callback' 	=> 'esc_url_raw',
+		)
+	);
+
+	$wp_customize->add_control( 'gagasan_vimeo_link', array(
+		'label'             	=> __( 'Vimeo Link', 'gagasan' ),
+		'section'           	=> 'gagasan_social_links',
+		'type'              	=> 'text',
+		'priority'          	=> 10,
+		)
+	);	
+
+	$wp_customize->add_setting( 'gagasan_youtube_link', array(
+		'default'           	=> '',
+		'sanitize_callback' 	=> 'esc_url_raw',
+		)
+	);
+
+	$wp_customize->add_control( 'gagasan_youtube_link', array(
+		'label'             	=> __( 'Youtube Link', 'gagasan' ),
+		'section'           	=> 'gagasan_social_links',
+		'type'              	=> 'text',
+		'priority'          	=> 11,
+		)
+	);	
+
 }
-endif;
 add_action( 'customize_register', 'gagasan_customize_register' );
 
-
 /**
- * Provide scss which is used for generating color schemes
+ * Gravatar as logo.
+ * Use the admin email's gravatar or gravatar_email text field.
  */
-if ( ! function_exists( 'gagasan_color_scheme_scss' ) ) :
-function gagasan_color_scheme_scss( $accent_color ){
-	$scss = '
-		// Colors
-		$color__accent: '. $accent_color .';
-		$color__link: darken( $color__accent, 60% );
-		$color__link-visited: darken( $color__accent, 50% );
-		$color__link-hover: darken( $color__accent, 40% );
-		$color__link-shadow: darken( $color__link, 20% );
-		$color__text-title: darken( $color__accent, 78% );
-		$color__secondary-bg: lighten( $color__accent, 10% );
+function gagasan_gravatar_logo() {
+	// Get default from Discussion Settings.
+	$default = get_option( 'avatar_default', 'mystery' ); // Mystery man default
+	if ( 'mystery' == $default )
+		$default = 'mm';
+	elseif ( 'gravatar_default' == $default )
+		$default = '';
 
-		// _header
-		body{
-			border-color: $color__accent;
-		}
+	$protocol = ( is_ssl() ) ? 'https://secure.' : 'http://';
 
-		#masthead{			
-			.site-title{
-				a{
-					color: $color__text-title;
-				}
-			}
-		}		
+	if ( ( get_option( 'admin_email' ) != get_theme_mod( 'gravatar_email' ) ) && is_email( get_theme_mod( 'gravatar_email' ) ) )
+		$email = get_theme_mod( 'gravatar_email' );
+	else
+		$email = get_option( 'admin_email' );
 
-		#site-navigation{
-			.menu-toggle{
-				color: $color__text-title;
-			}
-		}
+	$url = sprintf( '%1$sgravatar.com/avatar/%2$s/', $protocol, md5( $email ) );
+	$url = add_query_arg( array(
+		's' => 120,
+		'd' => urlencode( $default ),
+	), $url );
 
-		.page-header{
-			.background{
-				background: $color__accent;
-			}
-
-			&.no-background-image{
-				.page-title,
-				.page-description{
-					color: $color__text-title;
-
-					a{				
-						color: $color__text-title;
-					}
-				}
-			}
-		}
-
-		// _buttons
-		button,
-		input[type="button"],
-		input[type="reset"],
-		input[type="submit"] {
-			background: $color__link;
-			box-shadow: 0 3px 0 $color__link-shadow;
-		}
-
-		button:hover,
-		input[type="button"]:hover,
-		input[type="reset"]:hover,
-		input[type="submit"]:hover {
-			background: $color__link-hover;
-		}
-
-		button:focus,
-		input[type="button"]:focus,
-		input[type="reset"]:focus,
-		input[type="submit"]:focus,
-		button:active,
-		input[type="button"]:active,
-		input[type="reset"]:active,
-		input[type="submit"]:active {
-			background: $color__link-visited;
-		}
-
-		// _fields
-		input[type="text"]:focus,
-		input[type="email"]:focus,
-		input[type="url"]:focus,
-		input[type="password"]:focus,
-		input[type="search"]:focus,
-		textarea:focus {
-			border-color: $color__link;
-		}
-
-		// _links
-		a{
-			color: $color__link;
-
-			&:hover,
-			&:focus,
-			&:active {
-				color: $color__link-hover;
-			}
-		}
-
-		// _menus
-		.main-navigation {
-			a {
-				color: $color__text-title;
-			}
-		}
-
-		.paging-navigation{
-			a{
-				border-color: $color__link;
-
-				&:hover{
-					border-color: $color__link-hover;
-				}
-			}
-		}
-
-		// _comments 
-		#cancel-comment-reply-link,
-		.comment-reply-link{
-			&:hover{
-				border-color: $color__link;
-				color: $color__link;
-			}
-
-			&:active{
-				border-color: $color__link-visited;
-			}
-		}
-
-		// _posts-and-pages
-		.hentry {
-			.entry-header{
-				.edit-link{
-					a{
-						border: 1px solid $color__link;
-						color: $color__link;
-					}
-				}		
-			}
-
-			.entry-title{
-				color: $color__text-title;
-
-				a{
-					color: $color__text-title;
-				}
-			}
-
-			.tags-links{
-				a{
-					color: $color__link;
-					border-color: $color__link;
-				}
-			}
-		}
-
-		// _copy 
-		.comment-content,
-		.entry-content{
-			h1{
-				color: $color__text-title;
-			}
-
-			h2{
-				color: $color__text-title;
-			}
-
-			h3{
-				color: $color__text-title;
-			}
-
-			h4{
-				color: $color__text-title;
-			}
-
-			b, strong {
-				color: $color__text-title;
-			}
-
-			address {
-				color: $color__text-title;
-			}
-
-			code, kbd, tt, var {
-				color: $color__text-title;
-			}
-		}
-
-		// _widgets 
-		#secondary{
-			background: $color__secondary-bg;
-		}
-
-		.widget-title,
-		.widgettitle{
-			color: $color__text-title;
-		}
-
-		// _jetpack
-		.single-jetpack-portfolio{
-			.entry-title{
-				color: $color__text-title;
-			}
-
-			.entry-subtitle{
-				color: $color__text-title;
-
-				a{
-					color: $color__text-title;			
-				}
-			}
-		}		
-	';
-
-	return $scss;
-}
-endif;
-
-/**
- * Load and binds JS handlers to make certain parts of Theme Customizer preview reload changes asynchronously.
- */
-if ( ! function_exists( 'gagasan_customize_preview_js' ) ) :
-function gagasan_customize_preview_js() {
-	// Enqueue the script
-	wp_enqueue_script( 'gagasan-customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), '20141215', true );
-
-	// Attaching variables
-	wp_localize_script( 'gagasan-customizer', 'gagasan_customizer_params', array(
-		'generate_color_scheme_endpoint' 		=> admin_url( 'admin-ajax.php?action=gagasan_generate_customizer_color_scheme' ),
-		'generate_color_scheme_error_message' 	=> __( 'Error generating color scheme. Please try again.', 'gagasan' ),
-		'clear_customizer_settings'				=> admin_url( 'admin-ajax.php?action=gagasan_clear_customizer_settings' ),
-	) );
-
-	// Display color scheme previewer
-	$color_scheme = get_theme_mod( 'color_scheme_customizer', false );
-
-	if( $color_scheme ){
-		remove_action( 'wp_enqueue_scripts', 'gagasan_color_scheme' );
-
-		wp_enqueue_style( 'gagasan-style', get_stylesheet_uri(), array( 'dashicons' ), '1.0' );
-
-		$inline_style = wp_add_inline_style( 'gagasan-style', $color_scheme );
-	}	
-}
-endif;
-add_action( 'customize_preview_init', 'gagasan_customize_preview_js' );
-
-/**
- * Generate color scheme based on one accent color choosen by user
- * This function requires Jetpack to be active
- */
-
-/**
- * Jetpack's preprocessor's file path
- */
-function gagasan_jetpack_sass_preprocessor_path(){
-	return WP_PLUGIN_DIR . '/jetpack/modules/custom-css/custom-css/preprocessors.php';
+	return esc_url_raw( $url );
 }
 
 /**
- * Generate color scheme based on one accent color choosen by user
- * This function requires Jetpack to be active
+ * Callback function for sanitizing checkbox settings.
  */
-if ( ! function_exists( 'gagasan_generate_color_scheme' ) ) :
-function gagasan_generate_color_scheme(){
-
-	// Only process this if Jetpack is active and jetpack preprocessors file exists
-	if( gagasan_is_plugin_active( 'jetpack/jetpack.php') && file_exists( gagasan_jetpack_sass_preprocessor_path() ) ) :
-
-		$accent_color = get_theme_mod( 'accent_color', false );
-
-		if( $accent_color ){
-
-			// SCSS template
-			$color_scheme = gagasan_color_scheme_scss( $accent_color );
-
-			// Make sure that jetpack_sass_css_preprocess() exists
-			if( ! function_exists( 'jetpack_sass_css_preprocess' ) ){
-				require_once( gagasan_jetpack_sass_preprocessor_path() );
-			}
-
-			// Generate CSS
-			$css 	= jetpack_sass_css_preprocess( $color_scheme );
-
-			// Set Color Scheme
-			set_theme_mod( 'color_scheme', $css );
-
-			// Remove Customizer Color Scheme
-			remove_theme_mod( 'color_scheme_customizer' );
-		}
-
-	endif;
-
-}
-endif;
-add_action( 'customize_save_after', 'gagasan_generate_color_scheme' );
-
-/**
- * AJAX endpoint for generating color scheme in near real time for customizer
- */
-if( ! function_exists( 'gagasan_generate_customizer_color_scheme' ) ) :
-function gagasan_generate_customizer_color_scheme(){
-
-	if( isset( $_GET['accent_color'] ) && gagasan_sanitize_hex_color_no_hash( $_GET['accent_color'] ) && gagasan_is_plugin_active( 'jetpack/jetpack.php' ) && file_exists( gagasan_jetpack_sass_preprocessor_path() ) ){
-
-		// Get accent color
-		$accent_color = gagasan_sanitize_hex_color_no_hash( $_GET['accent_color'] );
-
-		if( $accent_color ){
-
-			$accent_color = '#' . $accent_color;
-
-			// SCSS template
-			$color_scheme = gagasan_color_scheme_scss( $accent_color );
-
-			// Make sure that jetpack_sass_css_preprocess() exists
-			if( ! function_exists( 'jetpack_sass_css_preprocess' ) ){
-				require_once( gagasan_jetpack_sass_preprocessor_path() );
-			}
-
-			// Generate CSS
-			$css 	= jetpack_sass_css_preprocess( $color_scheme );
-
-			// Set Color Scheme
-			set_theme_mod( 'color_scheme_customizer', $css );
-
-			$generate = array( 'status' => true, 'colorscheme' => $css );
-
-		} else {
-
-			$generate = array( 'status' => false, 'colorscheme' => false );
-
-		}
+function gagasan_sanitize_checkbox( $input ) {
+	if ( $input == 1 ) {
+		return 1;
 	} else {
-
-		$generate = array( 'status' => false, 'colorscheme' => false );
-
+		return '';
 	}
-
-	// Transmit message
-
-	echo json_encode( $generate ); 
-
-	die();
 }
-endif;
-add_action( 'wp_ajax_gagasan_generate_customizer_color_scheme', 'gagasan_generate_customizer_color_scheme' );
+
 
 /**
- * Endpoint for clearing all customizer temporary settings
- * This is made to be triggered via JS call (upon tab is closed)
- * 
- * @return void
+ * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
-if( ! function_exists( 'gagasan_clear_customizer_settings' ) ) :
-function gagasan_clear_customizer_settings(){
-	if( current_user_can( 'customize' ) ){
-		remove_theme_mod( 'color_scheme_customizer' );		
-	}
-
-	die();
+function gagasan_customize_preview_js() {
+	wp_enqueue_script( 'gagasan_customizer', 
+		get_template_directory_uri() . '/js/customizer.js', array( 
+			'customize-preview' ), 
+		'20130508', 
+		true 
+	);
 }
-endif;
-add_action( 'wp_ajax_gagasan_clear_customizer_settings', 'gagasan_clear_customizer_settings' );
+add_action( 'customize_preview_init', 'gagasan_customize_preview_js' );
