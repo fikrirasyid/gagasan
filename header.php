@@ -24,7 +24,7 @@
 	<header id="masthead" class="site-header" role="banner">
 		<div class="inner--container wrap">
 			<div class="site-branding">
-				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+				<?php gagasan_site_title(); ?>
 			</div><!-- .site-branding -->
 
 			<?php if ( has_nav_menu( 'primary' ) ) : ?>

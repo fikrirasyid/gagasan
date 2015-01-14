@@ -1,5 +1,20 @@
 <?php
 /**
+ * Gagasan site title
+ * 
+ * Use markup for site title appropriately
+ */
+if ( ! function_exists( 'gagasan_site_title' ) ) :
+function gagasan_site_title(){
+	if ( is_front_page() && is_home() ) : ?>
+		<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+	<?php else : ?>
+		<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
+	<?php endif;		
+}
+endif;
+
+/**
  * Custom template tags for this theme.
  *
  * Eventually, some of the functionality here could be replaced by core features.
